@@ -1,0 +1,64 @@
+[
+  {
+    "logConfiguration": {
+      "logDriver": "awslogs",
+      "options": {
+        "awslogs-group": "${log_group}",
+        "awslogs-region": "${region}",
+        "awslogs-stream-prefix": "${log_group}/${project}"
+      }
+    },
+    "portMappings": [
+      {
+        "hostPort": 0,
+        "protocol": "tcp",
+        "containerPort": 3000
+      }
+    ],
+    "environment": [
+      {
+        "name": "BASEPATH",
+        "value": "/${service_path}"
+      },
+      {
+        "name": "PORT",
+        "value": "3000"
+      },
+      {
+        "name": "DESCRIPTION",
+        "value": "Gamification API engine - OneClick"
+      },
+      {
+        "name": "NODE_ENV",
+        "value": "${environment}"
+      },
+      {
+        "name": "TZ",
+        "value": "UTC"
+      },
+      {
+        "name": "REDIS_HOST",
+        "value": "${redis_host}"
+      },
+      {
+        "name": "REDIS_PORT",
+        "value": "6379"
+      }
+      ${dummy_api_key}
+    ],
+    "mountPoints": [],
+    "secrets": [
+      {
+        "valueFrom": "${db_config}", 
+        "name": "DATABASE_URL"
+      }
+      ${api_key_secret}
+    ],
+    "cpu": null,
+    "memory": null,
+    "memoryReservation": 512,
+    "image": "${image}:latest",
+    "essential": true,
+    "name": "${container_name}"
+  }
+]
